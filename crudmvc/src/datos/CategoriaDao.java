@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 public class CategoriaDao implements CrudSimpleInterfaces<Categoria> {
 
-    private final Conexion CON;
+    private final Conexion CON;    
     private PreparedStatement ps;
     private ResultSet rs;
     private boolean resp;
@@ -44,6 +44,29 @@ public class CategoriaDao implements CrudSimpleInterfaces<Categoria> {
             CON.desconectar();
         }
         return registros;
+    }
+
+    @Override
+    public int total() {
+        int totalRegistros = 0;
+        try {
+            ps=CON.conectar().prepareStatement("SELECT COUNT(id) FROM categoria");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                totalRegistros=rs.getInt("COUNT(id)");
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            rs = null;
+            CON.desconectar();
+        }
+        return totalRegistros;
     }
 
 }

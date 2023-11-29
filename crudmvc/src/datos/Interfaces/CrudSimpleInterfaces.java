@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface CrudSimpleInterfaces<T> {    
     public List<T> listar(String texto);
+    public int total();
     
 }

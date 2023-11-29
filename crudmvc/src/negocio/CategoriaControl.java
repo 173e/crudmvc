@@ -11,10 +11,12 @@ public class CategoriaControl {
     private final CategoriaDao DATOS;
     private Categoria obj;
     private DefaultTableModel modeloTabla;
+    public int registrosMostrados;
 
     public CategoriaControl() {
         this.DATOS = new CategoriaDao();
         this.obj = new Categoria();
+        this.registrosMostrados=0;
     }
 
     public DefaultTableModel listar(String texto) {
@@ -42,5 +44,12 @@ public class CategoriaControl {
         }
 
         return this.modeloTabla;
+    }
+    public int total(){
+        return DATOS.total();
+    }
+    
+    public int totalMostrados(){
+        return this.registrosMostrados;
     }
 }
