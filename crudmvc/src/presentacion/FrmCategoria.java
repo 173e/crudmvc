@@ -14,44 +14,45 @@ import negocio.CategoriaControl;
  * @author JcarlosAd7
  */
 public class FrmCategoria extends javax.swing.JInternalFrame {
-    
+
     private final CategoriaControl CONTROL;
     private String accion;
     private String nombreAnt;
+
     /**
      * Creates new form FrmCategoria
      */
     public FrmCategoria() {
         initComponents();
-        this.CONTROL=new CategoriaControl();
+        this.CONTROL = new CategoriaControl();
         this.listar("");
         tabGeneral.setEnabledAt(1, false);
-        this.accion="guardar";
+        this.accion = "guardar";
         txtId.setVisible(false);
-        btnDesactivar.setVisible(false);
-        btnActivar.setVisible(false);
-        btnEditar.setVisible(false);
+        btnDesactivar.setVisible(true);
+        btnActivar.setVisible(true);
+        btnEditar.setVisible(true);
     }
-    
-    private void listar(String texto){
+
+    private void listar(String texto) {
         tablaListado.setModel(this.CONTROL.listar(texto));
-        TableRowSorter orden= new TableRowSorter(tablaListado.getModel());
+        TableRowSorter orden = new TableRowSorter(tablaListado.getModel());
         tablaListado.setRowSorter(orden);
         lblTotalRegistros.setText("Mostrando " + this.CONTROL.totalMostrados() + " de un total de " + this.CONTROL.total() + " registros");
     }
-    
-    private void limpiar(){
+
+    private void limpiar() {
         txtNombre.setText("");
         txtDescripcion.setText("");
-        this.accion="guardar";
+        this.accion = "guardar";
     }
-    
-    private void mensajeError(String mensaje){
-        JOptionPane.showMessageDialog(this, mensaje,"Sistema",JOptionPane.ERROR_MESSAGE);
+
+    private void mensajeError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mensajeOk(String mensaje){
-        JOptionPane.showMessageDialog(this, mensaje,"Sistema",JOptionPane.INFORMATION_MESSAGE);
+
+    private void mensajeOk(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -288,7 +289,7 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         tabGeneral.setEnabledAt(1, true);
         tabGeneral.setEnabledAt(0, false);
         tabGeneral.setSelectedIndex(1);
-        this.accion="guardar";
+        this.accion = "guardar";
         btnGuardar.setText("Guardar");
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -300,104 +301,127 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-//        if (txtNombre.getText().length()==0 || txtNombre.getText().length()>20){
-//            JOptionPane.showMessageDialog(this, "Debes ingresar un nombre y no debe ser mayor a 20 caracteres, es obligatorio.","Sistema", JOptionPane.WARNING_MESSAGE);
-//            txtNombre.requestFocus();
-//            return;
-//        }
-//        if (txtDescripcion.getText().length()>255){
-//            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
-//            txtDescripcion.requestFocus();
-//            return;
-//        }
-//        String resp;
-//        if (this.accion.equals("editar")){
-//            //Editar
-//            resp=this.CONTROL.actualizar(Integer.parseInt(txtId.getText()),txtNombre.getText(),this.nombreAnt, txtDescripcion.getText());
-//            if(resp.equals("OK")){
-//                this.mensajeOk("Actualizado correctamente");
-//                this.limpiar();
-//                this.listar("");                
-//                tabGeneral.setSelectedIndex(0);
-//                tabGeneral.setEnabledAt(1, false);
-//                tabGeneral.setEnabledAt(0, true);
-//            }else{
-//                this.mensajeError(resp);
-//            }
-//        }else{
-//            //guardar
-//            resp=this.CONTROL.insertar(txtNombre.getText(), txtDescripcion.getText());
-//            if(resp.equals("OK")){
-//                this.mensajeOk("Registrado correctamente");
-//                this.limpiar();
-//                this.listar("");                
-//                /*tabGeneral.setSelectedIndex(0);
-//                tabGeneral.setEnabledAt(1, false);
-//                tabGeneral.setEnabledAt(0, true);*/
-//            }else{
-//                this.mensajeError(resp);
-//            }
-//        }
-//        
+        if (txtNombre.getText().length() == 0 || txtNombre.getText().length() > 20) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar un nombre y no debe ser mayor a 20 caracteres, es obligatorio.", "Sistema", JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        if (txtDescripcion.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.", "Sistema", JOptionPane.WARNING_MESSAGE);
+            txtDescripcion.requestFocus();
+            return;
+        }
+        String resp;
+        if (this.accion.equals("editar")) {
+            //Editar
+            resp = this.CONTROL.actualizar(Integer.parseInt(txtId.getText()), txtNombre.getText(), this.nombreAnt, txtDescripcion.getText());
+            if (resp.equals("OK")) {
+                this.mensajeOk("Actualizado correctamente");
+                this.limpiar();
+                this.listar("");
+                tabGeneral.setSelectedIndex(0);
+                tabGeneral.setEnabledAt(1, false);
+                tabGeneral.setEnabledAt(0, true);
+            } else {
+                this.mensajeError(resp);
+            }
+        } else {
+            //guardar
+            resp = this.CONTROL.insertar(txtNombre.getText(), txtDescripcion.getText());
+            if (resp.equals("OK")) {
+                this.mensajeOk("Registrado correctamente");
+                this.limpiar();
+                this.listar("");
+                /*tabGeneral.setSelectedIndex(0);
+                tabGeneral.setEnabledAt(1, false);
+                tabGeneral.setEnabledAt(0, true);*/
+            } else {
+                this.mensajeError(resp);
+            }
+        }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-//        if (tablaListado.getSelectedRowCount()==1){
-//            String id= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),0));
-//            String nombre= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1));
-//            this.nombreAnt= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1));
-//            String descripcion= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),2));
-//            
-//            txtId.setText(id);
-//            txtNombre.setText(nombre);
-//            txtDescripcion.setText(descripcion);
-//            
-//            tabGeneral.setEnabledAt(0, false);
-//            tabGeneral.setEnabledAt(1, true);
-//            tabGeneral.setSelectedIndex(1);
-//            this.accion="editar";
-//            btnGuardar.setText("Editar");
-//        }else{
-//            this.mensajeError("Seleccione 1 registro a editar.");
-//        }
+       // Se verifica si hay exactamente un registro seleccionado en la tabla.
+if (tablaListado.getSelectedRowCount() == 1) {
+    // Se obtienen los valores de las celdas seleccionadas (id, nombre, descripcion).
+    String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+    String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+    
+    // Se guarda el valor del nombre antes de la posible edición.
+    this.nombreAnt = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+    
+    String descripcion = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 2));
+
+    // Se establecen los valores en los campos de texto.
+    txtId.setText(id);
+    txtNombre.setText(nombre);
+    txtDescripcion.setText(descripcion);
+
+    // Se deshabilita la pestaña del listado y se habilita la pestaña de edición.
+    tabGeneral.setEnabledAt(0, false);
+    tabGeneral.setEnabledAt(1, true);
+
+    // Se selecciona la pestaña de edición.
+    tabGeneral.setSelectedIndex(1);
+
+    // Se establece la acción actual como "editar" y se actualiza el texto del botón de guardar.
+    this.accion = "editar";
+    btnGuardar.setText("Editar");
+} else {
+    // Si no hay exactamente un registro seleccionado, se muestra un mensaje de error.
+    this.mensajeError("Seleccione 1 registro a editar.");
+}
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarActionPerformed
-//        if (tablaListado.getSelectedRowCount() == 1) {
-//            String id= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),0));
-//            String nombre= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1));
-//            
-//            if(JOptionPane.showConfirmDialog(this,"Deseas desactivar el registro: " + nombre + " ?", "Desactivar", JOptionPane.YES_NO_OPTION)==0){
-//                String resp=this.CONTROL.desactivar(Integer.parseInt(id));
-//                if (resp.equals("OK")){
-//                    this.mensajeOk("Registro desactivado");
-//                    this.listar("");
-//                }else{
-//                    this.mensajeError(resp);
-//                }
-//            }
-//        } else {
-//            this.mensajeError("Seleccione 1 registro a desactivar.");
-//        }
+// Se verifica si hay exactamente un registro seleccionado en la tabla.
+        if (tablaListado.getSelectedRowCount() == 1) {
+            // Se obtienen los valores de las celdas seleccionadas (id y nombre).
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+
+            // Se muestra un cuadro de diálogo de confirmación para desactivar el registro seleccionado.
+            if (JOptionPane.showConfirmDialog(this, "Deseas desactivar el registro: " + nombre + " ?", "Desactivar", JOptionPane.YES_NO_OPTION) == 0) {
+                // Se llama al método 'desactivar' del controlador para desactivar el registro en la base de datos.
+                String resp = this.CONTROL.desactivar(Integer.parseInt(id));
+
+                // Se verifica la respuesta del método 'desactivar'.
+                if (resp.equals("OK")) {
+                    // Si la respuesta es "OK", se muestra un mensaje de éxito y se actualiza la lista.
+                    this.mensajeOk("Registro desactivado");
+                    this.listar("");
+                } else {
+                    // Si la respuesta no es "OK", se muestra un mensaje de error.
+                    this.mensajeError(resp);
+                }
+            }
+        } else {
+            // Si no hay exactamente un registro seleccionado, se muestra un mensaje de error.
+            this.mensajeError("Seleccione 1 registro a desactivar.");
+        }
+
     }//GEN-LAST:event_btnDesactivarActionPerformed
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
-//        if (tablaListado.getSelectedRowCount() == 1) {
-//            String id= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),0));
-//            String nombre= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1));
-//            
-//            if(JOptionPane.showConfirmDialog(this,"Deseas activar el registro: " + nombre + " ?", "Activar", JOptionPane.YES_NO_OPTION)==0){
-//                String resp=this.CONTROL.activar(Integer.parseInt(id));
-//                if (resp.equals("OK")){
-//                    this.mensajeOk("Registro activado");
-//                    this.listar("");
-//                }else{
-//                    this.mensajeError(resp);
-//                }
-//            }
-//        } else {
-//            this.mensajeError("Seleccione 1 registro a activar.");
-//        }
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),0));
+            String nombre= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1));
+            
+            if(JOptionPane.showConfirmDialog(this,"Deseas activar el registro: " + nombre + " ?", "Activar", JOptionPane.YES_NO_OPTION)==0){
+                String resp=this.CONTROL.activar(Integer.parseInt(id));
+                if (resp.equals("OK")){
+                    this.mensajeOk("Registro activado");
+                    this.listar("");
+                }else{
+                    this.mensajeError(resp);
+                }
+            }
+        } else {
+            this.mensajeError("Seleccione 1 registro a activar.");
+        }
     }//GEN-LAST:event_btnActivarActionPerformed
 
 
